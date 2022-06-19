@@ -33,6 +33,8 @@ import { conditions } from '../conditions';
 // }
 
 const Home: NextPage = () => {
+  // ちらつき防止ため、stateを初期化する間はレンダリングしないようにする
+  const [isInit, setIsInit] = useState(true);
   const [searchText, setSearchText] = useState<string>('');
   const [searchConditionIndex, setSearchConditionIndex] = useState<number>(0);
   // const { data, error } = useSWR('/api/user/123', fetcher)
@@ -42,10 +44,11 @@ const Home: NextPage = () => {
 
   // ブラウザバックしたときにstateに値を設定する
   useEffect(() => {
-    // console.log(queryString.parse(window.location.search));
     const query = queryString.parse(window.location.search);
     if (typeof query.q === 'string') setSearchText(query.q);
     if (typeof query.i === 'string' && Number(query.i) !== NaN) setSearchConditionIndex(parseInt(query.i));
+
+    setIsInit(false);
   }, [])
 
   function handleSubmit() {
@@ -63,6 +66,7 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <div>
           <input
+            className={styles.searchBox}
             type="text"
             autoFocus
             name="searchText"
@@ -70,17 +74,18 @@ const Home: NextPage = () => {
             onKeyDown={(event) => { if (event.key === "Enter") handleSubmit() }}
           />
         </div>
-        <div>
-          {conditions.map((condition, i) =>
+        <div className={styles.wrapper}>
+          {!isInit && conditions.map((condition, i) =>
             <label key={`label${i}`} style={{ display: 'block' }}>
               <input
                 type="radio"
                 name="searchConditions"
                 value={i}
-                defaultChecked={i === 0}
+                defaultChecked={i === (searchConditionIndex || 0)}
                 onChange={(event) => setSearchConditionIndex(parseInt(event.target.value))}
               />{condition.label}
             </label>
+            // <div>{condition.label}</div>
           )}
         </div>
       </main>
