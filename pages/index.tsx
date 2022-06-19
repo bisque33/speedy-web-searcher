@@ -7,7 +7,7 @@ import useSWR from 'swr'
 
 import queryString from 'query-string';
 
-import { conditions } from './conditions';
+import { conditions } from '../conditions';
 
 /**
  * - [x] ブラウザバックしたときにstateにもとの値がセットされるようにする
