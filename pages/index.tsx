@@ -74,6 +74,7 @@ const Home: NextPage = () => {
             type="text"
             autoFocus
             name="searchText"
+            value={searchText}
             onChange={(event) => setSearchText(event.target.value)}
             onKeyDown={(event) => { if (event.key === "Enter") handleSubmit() }}
           />
