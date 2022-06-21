@@ -45,6 +45,8 @@ const Home: NextPage = () => {
   // ブラウザバックしたときにstateに値を設定する
   useEffect(() => {
     const query = queryString.parse(window.location.search);
+    console.log({ query });
+
     if (typeof query.q === 'string') setSearchText(query.q);
     if (typeof query.i === 'string' && Number(query.i) !== NaN) setSearchConditionIndex(parseInt(query.i));
 
@@ -55,6 +57,8 @@ const Home: NextPage = () => {
     const url = conditions[searchConditionIndex].url;
     const searchString = conditions[searchConditionIndex].additionalText ? `${searchText} ${conditions[searchConditionIndex].additionalText}` : searchText
     const currentUrl = `${window.location.origin}${window.location.pathname}`
+
+    console.log({ currentUrl });
 
     // ブラウザバックしたときにstateを保持するために現在のページにqueryStringを追加する
     window.history.replaceState(null, '', `${currentUrl}?q=${searchText}&i=${searchConditionIndex}`);
