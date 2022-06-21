@@ -54,10 +54,10 @@ const Home: NextPage = () => {
   function handleSubmit() {
     const url = conditions[searchConditionIndex].url;
     const searchString = conditions[searchConditionIndex].additionalText ? `${searchText} ${conditions[searchConditionIndex].additionalText}` : searchText
-    console.log({ url, searchString });
+    const currentUrl = `${window.location.origin}${window.location.pathname}`
 
     // ブラウザバックしたときにstateを保持するために現在のページにqueryStringを追加する
-    window.history.replaceState(null, '', `/?q=${searchText}&i=${searchConditionIndex}`);
+    window.history.replaceState(null, '', `${currentUrl}?q=${searchText}&i=${searchConditionIndex}`);
     window.location.href = url + searchString;
   }
 
